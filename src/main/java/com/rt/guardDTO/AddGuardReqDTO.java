@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddGuardReqDTO {
-	
+	private int id;
 	private String fullname;
 	private String email;
 	private String number;

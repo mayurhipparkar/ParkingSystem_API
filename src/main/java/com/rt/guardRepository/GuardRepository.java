@@ -28,7 +28,7 @@ public interface GuardRepository extends JpaRepository<Users, Integer>{
 // this is used to filter guard based on their status(Active or Inactive).
 	Page<Users> findByRoleAndStatus(String role, String statusFilter, Pageable pageable);
 
-	 @Query("SELECT u FROM Users u WHERE LOWER(u.fullname) LIKE LOWER(CONCAT('%', :fullname, '%')) AND g.role = :role")
+	 @Query("SELECT u FROM Users u WHERE LOWER(u.fullname) LIKE LOWER(CONCAT('%', :fullname, '%')) AND u.role = :role")
 	    List<Users> searchGuardsByNameAndRole(@Param("fullname") String fullname, @Param("role") String role);
 
 }

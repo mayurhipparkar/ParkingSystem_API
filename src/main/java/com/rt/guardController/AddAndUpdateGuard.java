@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rt.guardDTO.AddGuardReqDTO;
 import com.rt.guardDTO.FetchGuardDetailsReqDTO;
+import com.rt.guardDTO.FetchGuardDetailsRespDTO;
 import com.rt.guardServiceInterface.GuardServiceInterface;
 
 @RestController
@@ -24,7 +25,7 @@ public class AddAndUpdateGuard {
 	
 	
 	@PostMapping("/fetch")
-	public String guardUpdateRecordBasedOnId(@RequestBody FetchGuardDetailsReqDTO fetchGuardDetailsReqDTO) {
+	public FetchGuardDetailsRespDTO guardUpdateRecordBasedOnId(@RequestBody FetchGuardDetailsReqDTO fetchGuardDetailsReqDTO) {
 		
 		return guardServiceInterface.fetchGuardDataById(fetchGuardDetailsReqDTO);
 	}

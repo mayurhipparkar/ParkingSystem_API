@@ -81,6 +81,16 @@ public class Users {
 		this.status=status;
 	}
 	
+	
+	public Users(String fullname, String email, String number, String address, String password) {
+		super();
+		this.fullname = fullname;
+		this.email = email;
+		this.number = number;
+		this.address = address;
+		this.password = password;
+	}
+	
 	//it is used to add time stamp when we create any guard or admin.
 	 @PrePersist
 	    public void onCreate() {
