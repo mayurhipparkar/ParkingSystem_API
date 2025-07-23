@@ -5,16 +5,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rt.vehicleAndParkingEntity.Vehicle;
 import com.rt.vehicleEntryDTO.FetchVehicleInfoRespDto;
-import com.rt.vehicleEntryEntity.Vehicle;
 import com.rt.vehicleEntryMapper.FetchVehicleInfoMapper;
-import com.rt.vehicleEntryRepository.FetchVehicleInfoRepo;
+import com.rt.vehicleEntryRepository.VehicleRepository;
 import com.rt.vehicleEntryServiceInterface.FetchVehicleInfoInterface;
 
 @Service
 public class FetchVehicleInfoImp implements FetchVehicleInfoInterface{
 	@Autowired
-	private FetchVehicleInfoRepo fetchVehicleInfoRepo;
+	private VehicleRepository fetchVehicleInfoRepo;
 	
 	@Autowired
 	private FetchVehicleInfoMapper fetchVehicleInfoMapper;

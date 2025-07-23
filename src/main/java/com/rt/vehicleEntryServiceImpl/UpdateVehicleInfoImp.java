@@ -4,16 +4,16 @@ package com.rt.vehicleEntryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rt.vehicleAndParkingEntity.Vehicle;
 import com.rt.vehicleEntryDTO.UpdateVehicleInfoReqDto;
-import com.rt.vehicleEntryEntity.Vehicle;
 import com.rt.vehicleEntryMapper.UpdateVehicleInfoMapper;
-import com.rt.vehicleEntryRepository.UpdateAndDeleteVehicleInfoRepo;
+import com.rt.vehicleEntryRepository.VehicleRepository;
 import com.rt.vehicleEntryServiceInterface.UpdateAndDeleteVehicleInfoInterface;
 
 @Service
 public class UpdateVehicleInfoImp implements UpdateAndDeleteVehicleInfoInterface{
 @Autowired
-private UpdateAndDeleteVehicleInfoRepo updateAndDeleteVehicleInfoRepo;
+private VehicleRepository updateAndDeleteVehicleInfoRepo;
 	@Autowired
 	private UpdateVehicleInfoMapper updateVehicleInfoMapper;
 	

@@ -1,4 +1,4 @@
-package com.rt.vehicleEntryEntity;
+package com.rt.vehicleAndParkingEntity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -35,7 +35,7 @@ public class EnteredVehicleListController {
 	            @RequestParam int userId,
 	            @RequestParam String userRole) {
 
-	        Page<EnteredVehicleListRespDTO> vehiclePage = enteredVehicleListInterface.getVehiclesByType(vehicleType,search,page, size,entryDate,userId,userRole);
+	        Page<EnteredVehicleListRespDTO> vehiclePage = enteredVehicleListInterface.getVehiclesByType(vehicleType,page,size,search,entryDate,userId,userRole);
 	        Map<String, Object> response = new HashMap<>();
 	        response.put("data", vehiclePage.getContent());
 	        response.put("currentPage", vehiclePage.getNumber());

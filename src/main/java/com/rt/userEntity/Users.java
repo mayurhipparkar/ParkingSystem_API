@@ -3,7 +3,7 @@ package com.rt.userEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.rt.vehicleEntryEntity.Vehicle;
+import com.rt.vehicleAndParkingEntity.Vehicle;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

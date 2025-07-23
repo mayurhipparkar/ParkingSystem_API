@@ -2,8 +2,8 @@ package com.rt.vehicleEntryMapper;
 
 import org.springframework.stereotype.Component;
 
+import com.rt.vehicleAndParkingEntity.Vehicle;
 import com.rt.vehicleEntryDTO.FetchVehicleInfoRespDto;
-import com.rt.vehicleEntryEntity.Vehicle;
 
 @Component
 public class FetchVehicleInfoMapper {

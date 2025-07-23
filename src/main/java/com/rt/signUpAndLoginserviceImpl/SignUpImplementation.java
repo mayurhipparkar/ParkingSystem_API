@@ -5,14 +5,14 @@ import org.springframework.stereotype.Service;
 
 import com.rt.signUpAndLoginDTO.RequestSignUpDTO;
 import com.rt.signUpAndLoginMapper.SignUpAndUserMapper;
-import com.rt.signUpAndLoginRepository.SignupRepositiry;
+import com.rt.signUpAndLoginRepository.UsersRepository;
 import com.rt.signUpAndLoginserviceInterface.SignUpInterface;
 import com.rt.userEntity.Users;
 
 @Service
 public class SignUpImplementation implements SignUpInterface{
 	@Autowired
-	private SignupRepositiry userRepo;//it extended the JPA repository 
+	private UsersRepository userRepo;//it extended the JPA repository 
 	
 	@Autowired
 	private SignUpAndUserMapper mapper;//Mapper class to convert DTO to Entity and vis versa.
