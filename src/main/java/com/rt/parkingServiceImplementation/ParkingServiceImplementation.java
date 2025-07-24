@@ -1,5 +1,6 @@
 package com.rt.parkingServiceImplementation;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -182,51 +183,66 @@ public class ParkingServiceImplementation implements ParkingServiceInterface{
 	//it is used to fetch all record based on user.
 	@Override
 	public Map<String, Object> getparkingListByRole(int page, int size, int userId, String userRole) {
-		 Map<String, Object> response = new HashMap<>();
+	    Map<String, Object> response = new HashMap<>();
 
-		    Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-		    Page<Parking> parkingPage;
-		    
+	    Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+	    Page<Parking> parkingPage;
 
-		    if ("ADMIN".equalsIgnoreCase(userRole)) {
-		        parkingPage = parkingManagementRepository.findAll(pageable);
-		    } else if ("GUARD".equalsIgnoreCase(userRole)) {
-		        parkingPage = parkingManagementRepository.findByUser_Id(userId, pageable);
-		    } else {
-		        throw new RuntimeException("Access denied: unknown user role.");
-		    }
-		    
-		    List<ParkingEntryRespDTO> dtoList = parkingPage.getContent().stream().map(parking -> {
-		    	
-		    	// Determine slot ID based on which slot is not null
-		        String slotId = null;
-		        if (parking.getTwoWheelerSlot() != null) {
-		            slotId = parking.getTwoWheelerSlot().getSlotId();
-		        } else if (parking.getFourWheelerSlot() != null) {
-		            slotId = parking.getFourWheelerSlot().getSlotId();
-		        }
-		    	
-		        return new ParkingEntryRespDTO(
-		            parking.getId(),
-		            parking.getVehicle().getVehicleNumber(),
-		            parking.getVehicle().getVehicleType().toString(),
-		            parking.getVehicle().getOwnerName(),
-		            slotId,
-		            parking.getInDate(),
-		            parking.getInTime(),
-		            parking.getOutDate(),
-		            parking.getOutTime(),
-		            parking.getStatus()
-		        );
-		    }).toList();
+	    if ("ADMIN".equalsIgnoreCase(userRole)) {
+	        parkingPage = parkingManagementRepository.findAll(pageable);
+	    } else if ("GUARD".equalsIgnoreCase(userRole)) {
+	        parkingPage = parkingManagementRepository.findByUser_Id(userId, pageable);
+	    } else {
+	        throw new RuntimeException("Access denied: unknown user role.");
+	    }
 
-		    response.put("data", dtoList);
-		    response.put("currentPage", parkingPage.getNumber());
-		    response.put("totalItems", parkingPage.getTotalElements());
-		    response.put("totalPages", parkingPage.getTotalPages());
+	    List<ParkingEntryRespDTO> dtoList = parkingPage.getContent().stream().map(parking -> {
+	        String vehicleType = parking.getVehicle().getVehicleType().toString();
 
-		    return response;
-		}
+	        // Determine slot ID
+	        String slotId = null;
+	        if (parking.getTwoWheelerSlot() != null) {
+	            slotId = parking.getTwoWheelerSlot().getSlotId();
+	        } else if (parking.getFourWheelerSlot() != null) {
+	            slotId = parking.getFourWheelerSlot().getSlotId();
+	        }
+
+	        // Get fees
+	        Optional<ParkingFee> feeOpt = parkingFeeRepository.findByVehicleTypeIgnoreCase(vehicleType);
+	        BigDecimal hourlyFee = BigDecimal.ZERO;
+	        BigDecimal dailyFee = BigDecimal.ZERO;
+
+	        if (feeOpt.isPresent()) {
+	            hourlyFee = feeOpt.get().getHourlyFee();
+	            dailyFee = feeOpt.get().getDailyFee();
+	        }
+
+	        // Create DTO and set fees
+	        ParkingEntryRespDTO dto = new ParkingEntryRespDTO(
+	            parking.getId(),
+	            parking.getVehicle().getVehicleNumber(),
+	            vehicleType,
+	            parking.getVehicle().getOwnerName(),
+	            parking.getVehicle().getContactNumber(),
+	            slotId,
+	            parking.getInDate(),
+	            parking.getInTime(),
+	            parking.getOutDate(),
+	            parking.getOutTime(),
+	            parking.getStatus()
+	        );
+	        dto.setHourlyFee(hourlyFee);
+	        dto.setDailyFee(dailyFee);
+	        return dto;
+	    }).toList();
+
+	    response.put("data", dtoList);
+	    response.put("currentPage", parkingPage.getNumber());
+	    response.put("totalItems", parkingPage.getTotalElements());
+	    response.put("totalPages", parkingPage.getTotalPages());
+
+	    return response;
+	}
 
 	//fetch particular record based on id.
 	@Override
@@ -331,6 +347,7 @@ public class ParkingServiceImplementation implements ParkingServiceInterface{
 	            parking.getVehicle().getVehicleNumber(),
 	            parking.getVehicle().getVehicleType().toString(),
 	            parking.getVehicle().getOwnerName(),
+	            parking.getVehicle().getContactNumber(),
 	            slotId,
 	            parking.getInDate(),
 	            parking.getInTime(),
@@ -367,6 +384,7 @@ public class ParkingServiceImplementation implements ParkingServiceInterface{
 	            parking.getVehicle().getVehicleNumber(),
 	            parking.getVehicle().getVehicleType().toString(),
 	            parking.getVehicle().getOwnerName(),
+	            parking.getVehicle().getContactNumber(),
 	            slotId,
 	            parking.getInDate(),
 	            parking.getInTime(),
